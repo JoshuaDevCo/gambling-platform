@@ -1,23 +1,3 @@
-
-
-go install google.golang.org/protobuf/cmd/protoc-gen-go
-
-go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
-
-protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative wallet/wallet.proto
-
-docker build -t aigesh-test .
-
-docker scout quickview
-
-//INFO New version 1.2.2 available (installed version is 0.20.0)
-//[2023-12-16T09:50:15.802626500Z][docker-credential-desktop.system][W] Windows version might not be up-to-date: The system cannot find the file specified.
-//level=error msg="Status: login using Docker Desktop or 'docker login' command: no credential found for \"index.docker.io\", Code: 1"
-
-docker run -p 8080:8080 aigesh-test
-
-
-
 # gambling-platform TEST
 
 I am looking forward to working with you.
@@ -34,26 +14,55 @@ I was not a senior. But I have passion. I will become a senior.
 
     Clone the repository.
    
-    git clone https://github.com/trayanus1026/Kristina-Test.git
+    git clone https://github.com/trayanus1026/gambling-platform.git
 
-    cd Kristina Test
+    cd gambling-platform
 
-    npm install
+    go install google.golang.org/protobuf/cmd/protoc-gen-go
+
+    go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
+
+    protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative wallet/wallet.proto
+    
+    docker build -t aigesh-test .
+
+    docker scout quickview
+
+    docker run -p 8080:8080 aigesh-test
 
 ## Usage
+    
+    You can test using postman.
 
-    npm run start1 for validExpressionCheck
+    (POST)http://localhost:8080/api/wallet/deposit
+        request: {
+                    "user_id":"3",
+                    "amount":100
+                }
 
-    npm run start2 for nonFibonacciGen
+        response: {
+                    "balance": 100
+                }
 
-    npm run start3 for lruCache
+    (POST)http://localhost:8080/api/wallet/withdraw
+        request: {
+                    "user_id":"3",
+                    "amount":40
+                }
+        response: {
+                    "balance": 60
+                }
+        
+    (GET)http://localhost:8080/api/wallet/balance/3
+        response: {
+                    "balance": 60,
+                    "user_id": "3"
+                }
 
-    npm run start4 for weightCounter
+    You can test websocket using by console log. I logged.
 
-    npm run start5 for findConcat
-
-    npm run test for test
-
+    You can test grpc using by command "go test" (modify user_id in 25 line of main_test.go )
+    
 ## Addition
 
-    My complexiy of the problem "Divide and rule" is O(K*S).
+    

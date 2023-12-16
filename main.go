@@ -52,7 +52,9 @@ func main() {
 		for {
 			// Simulate events (replace with actual game outcomes or leaderboard changes)
 			walletHandler.BroadcastGameOutcome("Game outcome: You won!")
+			fmt.Printf("websocket-------------test\n")
 			walletHandler.BroadcastLeaderboardChange("Leaderboard changed")
+			fmt.Printf("websocket-------------test\n")
 
 			<-time.After(10 * time.Second)
 		}

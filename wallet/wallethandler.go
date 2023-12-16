@@ -2,6 +2,7 @@ package wallet
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"sync"
 
@@ -117,7 +118,15 @@ func (wh *WalletHandler) GetBalanceByUserId(userId string) int {
 }
 
 func (wh *WalletHandler) BroadcastGameOutcome(outcome string) {
+	wh.mu.Lock()
+	defer wh.mu.Unlock()
+
 	message := []byte("Game Outcome: " + outcome)
+
+	for userID, balance := range wh.wallet {
+		fmt.Printf("User ID: %s, Balance: %d\n", userID, balance)
+	}
+	//will modify message from balance and userID
 	wh.webSocket.Broadcast(websocket.TextMessage, message)
 }
 
