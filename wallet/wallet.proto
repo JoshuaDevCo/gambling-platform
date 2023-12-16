@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package wallet;
+option go_package = "./wallet";
+
+message BalanceRequest {
+  string user_id = 1;
+}
+
+message BalanceResponse {
+  int32 balance = 1;
+}
+
+service WalletService {
+  rpc GetBalance (BalanceRequest) returns (BalanceResponse);
+}

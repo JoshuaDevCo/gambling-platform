@@ -24,10 +24,6 @@ type WithdrawResponse struct {
 	Balance int `json:"balance"`
 }
 
-type BalanceResponse struct {
-	Balance int `json:"balance"`
-}
-
 type WalletHandler struct {
 	mu        sync.Mutex
 	wallet    map[string]int
@@ -100,11 +96,23 @@ func (wh *WalletHandler) GetBalance(w http.ResponseWriter, r *http.Request) {
 	// Check if the user exists
 	if balance, ok := wh.wallet[userID]; ok {
 		// Respond with the user's wallet balance
-		response := BalanceResponse{Balance: balance}
+		response := map[string]interface{}{"user_id": userID, "balance": balance}
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(response)
 	} else {
 		http.Error(w, "User not found", http.StatusNotFound)
+	}
+}
+
+func (wh *WalletHandler) GetBalanceByUserId(userId string) int {
+	wh.mu.Lock()
+	defer wh.mu.Unlock()
+	//	return wh.wallets[userID].Balance
+
+	if balance, ok := wh.wallet[userId]; ok {
+		return balance
+	} else {
+		return -1
 	}
 }
 
